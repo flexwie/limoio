@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="de" ng-app="shopApplication">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titel</title>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script src="backend/js/app.js"></script>
+	<style>
+		.product-holder {
+			display: inline-block;
+			width: 100%;
+			padding: 5px 0;
+		}
+		
+		.spec {
+			display: inline-block;
+			width: 35%;
+		}
+		
+		#uploader {
+			display: none;
+		}
+		
+		.editForm {
+			display: none;
+			margin: 5px 0;
+		}
+		
+		.del-media{
+			position: relative;
+			top: -207px;
+			left: 5px;
+			color: red;
+		}
+		
+		.media-holder {
+			display: inline-block;
+			width: 200px;
+			margin-right: 10px;
+			float: left;
+		}
+	</style>
+  </head>
+  <body ng-controller="shopController" ng-cloak>
+	<h1>Admin Interface</h1>
+	<div ng-hide="success">
+		<input type="text" name="user" id="user" placeholder="User">
+		<input type="password" name="pswd" id="pswd" placeholder="Password">
+		<button name="submit" id="submit" ng-click="auth()">Send</button>
+	</div>
+	<div ng-show="success">
+		<div style="background-color: #FAFAFA">
+			<h3>Products</h3>
+			<div ng-repeat="prod in products track by $index">
+				<div class="product-holder" id="{{prod._id}}">
+					<div class="spec">{{ prod.name }}</div>
+					<div class="spec" style="max-width: 100px;" ng-click="del(prod._id)">
+						<button style="padding: 5px; background-color: red; color: white;">Delete</button>
+					</div>
+					<div class="spec" style="max-width: 100px;" ng-click="show_edit($index)">
+						<button style="padding: 5px; background-color: green; color: white;">Edit</button>
+					</div>
+					<div class="editForm" id="editForm{{$index}}">
+						<input name="name" id="editName{{$index}}" value="{{prod.name}}">
+						<input name="price" id="editPrice{{$index}}" value="{{prod.price}}">
+						<button ng-click="editProduct(prod._id, $index)">Send</button>
+						<label id="success" ng-show="updateSuccess" style="color: green; margin-left: 5px;">Updated</label>
+					</div>
+				</div>
+			</div>
+			<button ng-click="show_new_entry()" style="margin: 5px 0;">Add new Product</button>
+			<div id="newEntry" style="display: none;">
+				<input name="name" id="newName" placeholder="Name"></input>
+				<input name="price" id="newPrice" placeholder="Price"></input>
+				<button id="sendNewEntry" ng-click="newEntry()">Send</button>
+			</div>
+		</div>
+		<div>
+			<h3>Media</h3>
+			<button ng-click="show_uploader()" id="show_uploader">Add</button>
+			<div id="uploader">
+				<form method="post" action="/media/upload/" enctype="multipart/form-data">
+					<input type="file" name="Image">
+					<input value="{{ token }}" name="token" type="hidden">
+					<button type="submit">Submit</button>
+				</form>
+			</div>
+			<div ng-repeat="m in media track by $index">
+				<div class="media-holder">
+					<div style="display: inline-block; background: url('frontend/img/assets/{{m.url}}'); height: 200px; width: 200px; background-size: 200px 200px; background-repeat: no-repeat; border: 1px solid black"></div>
+					<span class="x del-media">x</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<a href="shop" style="margin-top: 50px; font-size: 10px; display: inherit;">Shop</a>
+	</body>
+</html>

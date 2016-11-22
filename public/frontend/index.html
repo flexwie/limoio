@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="de" ng-app="shopApplication">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titel</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script src="frontend/js/app.js"></script>
+	<style>
+		.color {
+			background-color: #FAFAFA;
+		}
+	</style>
+  </head>
+  <body ng-controller="shopController" ng-cloak>
+	<h1>Shop Frontend</h1>
+  
+	<div ng-repeat="prod in products track by $index">
+		<div class="{{ $even ? 'color' : ''}}">
+			<p> Name: {{ prod.name }} </p>
+			<p> Preis: {{ prod.price }} {{ currency }} </p>
+			<img ng-src="/img/{{ prod.picture.url }}" style="max-width: 100px; height: auto;">
+		</div>
+	</div>
+	<a href="admin" style="margin-top: 50px; font-size: 10px; display: inherit;">Adminbereich</a>
+  </body>
+</html>
