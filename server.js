@@ -1,18 +1,19 @@
 //TEST
-var express 	= require('express');
-var app 		= express();
-var bodyParser 	= require('body-parser');
-var path		= require('path');
-var fs 			= require('fs');
-var formidable	= require('formidable');
-var morgan		= require('morgan');
-var mongoose 	= require('mongoose');
-var jwt			= require('jsonwebtoken');
-var product		= require('./models/product.js');
-var user		= require('./models/user.js');
-var media_router= require('./routes/media.js');
-var media_model	= require('./models/media.js');
-var config		= require('./config.js');
+var express 		= require('express');
+var app 			= express();
+var bodyParser 		= require('body-parser');
+var path			= require('path');
+var fs 				= require('fs');
+var formidable		= require('formidable');
+var morgan			= require('morgan');
+var mongoose 		= require('mongoose');
+var jwt				= require('jsonwebtoken');
+var product_router 	= require('./routes/product.js');
+var product			= require('./models/product.js');
+var user			= require('./models/user.js');
+var media_router	= require('./routes/media.js');
+var media_model		= require('./models/media.js');
+var config			= require('./config.js');
 
 //----- Express Init -----
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -25,10 +26,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 var port = 4000;
 mongoose.connect(config.database);
 
-var protectedRoutes = express.Router();
 var frontend		= express.Router();
 var backend			= express.Router();
-var media			= express.Router();
 
 //----- Routes -----
 app.get('/', function(req, res) {
@@ -55,22 +54,6 @@ backend.route('/')
 			}
 		});
 	});
-
-protectedRoutes.use(function(req, res, next) {
-	var token = req.body.token || req.query.token || req.headers['x-access-token'];
-	if(token) {
-		jwt.verify(token, app.get('superSecret'), function(err, decoded) {
-			if(err) {
-				return res.json({ success : false, message : 'Token false' });
-			} else {
-				req.decoded = decoded;
-				next();
-			}
-		});
-	} else {
-		return res.status(403).send({ success : false, message : 'No token provided' });
-	}
-});
 
 //Routes handling API Auth
 app.route('/auth')
@@ -103,52 +86,14 @@ app.route('/products/:prod_id')
 		})
 	});
 
-//Routes handling products (CRUD)
-protectedRoutes.route('/products')
-	.post(function(req, res) {
-		var prod = new product();
-		prod.name = req.body.name;
-		prod.price = req.body.price;
-		//TODO implement several img sizes
-		prod.picture.size = 'big';
-		//TODO upload file to static dir, change name to random number, ceck if number already exists
-		prod.picture.url = req.body.picture_url;
-		prod.created_at = new Date();
-		
-		prod.save(function(err) {
-			if(err) {res.send(err); }
-			res.json({ success: true, message: 'Created' });
-		});
-	});
 
-protectedRoutes.route('/products/:prod_id')
-	.put(function(req, res) {
-		product.findById(req.params.prod_id, function(err, prod) {
-			if(err) {res.send(err);}
-			prod.name = req.body.name;
-			prod.price = req.body.price;
-			//TODO add img
-			prod.save(function(err) {
-				if(err) {res.json({ success: false, message: 'Update failed ' + err});}
-				res.json({ success: true, message: 'Updated' });
-			});
-		})
-	})
-	.delete(function(req, res) {
-		product.remove({
-			_id: req.params.prod_id
-		}, function(err, prod) {
-			if(err) {res.send(err);}
-			res.json({ message: 'Deleted'});
-		});
-	});
 	
 frontend.route('/')
 	.get(function(req, res) {
 		res.sendfile(path.join(__dirname + '/public/frontend/index.html'));
 	});
 
-app.use('/protected', protectedRoutes);
+app.use('/protected', product_router);
 app.use('/shop', frontend);
 app.use('/admin', backend);
 app.use('/media', media_router);
