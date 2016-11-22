@@ -72,7 +72,10 @@ protectedRoutes.use(function(req, res, next) {
 });
 
 media.get('/:id', function(req, res) {
-	
+	media_m.findById(req.params.id, function(err, m) {
+		if(err) {res.send(err);}
+		res.sendfile(path.join(__dirname, '/public/frontend/img/assets/' + m.url));
+	})
 });
 
 media.get('/', function(req, res) {
