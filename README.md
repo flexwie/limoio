@@ -1,4 +1,4 @@
 # Nodshop
-A showare written in NodeJS
+A shopware written in NodeJS
 --
 TODO
