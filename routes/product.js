@@ -2,7 +2,7 @@ var express 		= require('express');
 var path 			= require('path');
 var jwt				= require('jsonwebtoken');
 var config			= require('../config.js');
-var product_model 	= require('../models/media.js');
+var product_model 	= require('../models/product.js');
 var product			= express.Router();
 
 //---------------------------------------
@@ -45,8 +45,8 @@ product.route('/products')
 
 product.route('/products/:prod_id')
 	.put(function(req, res) {
-		product_model.findById(req.params.prod_id, function(err, prod) {
-			if(err) {res.send(err);}
+		product_model.findOne({_id : req.params.prod_id}).then(function(prod) {
+			//if(err) {res.send(err);}
 			prod.name = req.body.name;
 			prod.price = req.body.price;
 			//TODO add img
