@@ -7,7 +7,7 @@ var formidable		= require('formidable');
 var morgan			= require('morgan');
 var mongoose 		= require('mongoose');
 var jwt				= require('jsonwebtoken');
-var backend_router	= require('');
+var backend_router	= require('./routes/backend.js');
 var product_router 	= require('./routes/product.js');
 var product			= require('./models/product.js');
 var user			= require('./models/user.js');
@@ -27,14 +27,13 @@ var port = 4000;
 mongoose.connect(config.database);
 
 var frontend		= express.Router();
-var backend			= express.Router();
 
 //----- Routes -----
 app.get('/', function(req, res) {
 	res.redirect('/shop');
 });
 
-backend.route('/')
+/* backend.route('/')
 	.get(function(req, res) {
 		res.sendfile(path.join(__dirname + '/public/backend/index.html'));
 	})
@@ -53,7 +52,7 @@ backend.route('/')
 				}
 			}
 		});
-	});
+	}); */
 
 //Routes handling API Auth
 app.route('/auth')
@@ -85,7 +84,7 @@ frontend.route('/')
 
 app.use('/products', product_router);
 app.use('/shop', frontend);
-app.use('/admin', backend);
+app.use('/admin', backend_router);
 app.use('/media', media_router);
 
 //----- Start -----
