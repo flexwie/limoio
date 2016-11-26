@@ -163,4 +163,9 @@ app.controller('shopController', function ($scope, $http, $rootScope) {
             $scope.msg = result.message;
         });
     };
+	
+	//Delete media
+	$scope.del_media = function(id) {
+		console.log(id);
+	}
 });

@@ -90,7 +90,7 @@
 			<div ng-repeat="m in media track by $index">
 				<div class="media-holder">
 					<div style="display: inline-block; background: url('frontend/img/assets/{{m.url}}'); height: 200px; width: 200px; background-size: 200px 200px; background-repeat: no-repeat; border: 1px solid black"></div>
-					<span class="x del-media">x</span>
+					<a class="x del-media" ng-click="del_media(m._id)">x</a>
 				</div>
 			</div>
 		</div>
