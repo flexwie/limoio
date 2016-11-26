@@ -8,6 +8,7 @@ var formidable		= require('formidable');
 var morgan			= require('morgan');
 var mongoose 		= require('mongoose');
 var jwt				= require('jsonwebtoken');
+var backend_router	= require('');
 var product_router 	= require('./routes/product.js');
 var product			= require('./models/product.js');
 var user			= require('./models/user.js');
