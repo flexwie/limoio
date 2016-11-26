@@ -68,16 +68,6 @@ app.route('/auth')
 		});
 	}); */
 	
-//Public product routes
-app.route('/products')
-	.get(function(req, res) {
-		product.find(function(err, prod) {
-			if(err) {res.send(err);}
-			
-			res.json(prod);
-		});
-	});
-	
 app.route('/products/:prod_id')
 	.get(function(req, res) {
 		product.findById(req.params.prod_id, function(err, prod) {
@@ -93,7 +83,7 @@ frontend.route('/')
 		res.sendfile(path.join(__dirname + '/public/frontend/index.html'));
 	});
 
-app.use('/protected', product_router);
+app.use('/products', product_router);
 app.use('/shop', frontend);
 app.use('/admin', backend);
 app.use('/media', media_router);

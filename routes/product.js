@@ -5,6 +5,15 @@ var config			= require('../config.js');
 var product_model 	= require('../models/product.js');
 var product			= express.Router();
 
+product.route('/')
+	.get(function(req, res) {
+		product_model.find(function(err, prod) {
+			if(err) {res.send(err);}
+			
+			res.json(prod);
+		});
+	});
+
 //---------------------------------------
 //USE PROTECTTION
 //---------------------------------------
@@ -26,7 +35,7 @@ product.use(function(req, res, next) {
 });
 
 //Routes handling products (CRUD)
-product.route('/products')
+product.route('/')
 	.post(function(req, res) {
 		var prod = new product_model();
 		prod.name = req.body.name;
@@ -43,9 +52,9 @@ product.route('/products')
 		});
 	});
 
-product.route('/products/:prod_id')
-	.put(function(req, res) {
-		product_model.findOne({_id : req.params.prod_id}).then(function(prod) {
+product.route('/:prod_id')
+	.post(function(req, res) {
+		product_model.findById(req.params.prod_id, function (err, prod){
 			//if(err) {res.send(err);}
 			prod.name = req.body.name;
 			prod.price = req.body.price;
@@ -54,7 +63,7 @@ product.route('/products/:prod_id')
 				if(err) {res.json({ success: false, message: 'Update failed ' + err});}
 				res.json({ success: true, message: 'Updated' });
 			});
-		})
+		});
 	})
 	.delete(function(req, res) {
 		product_model.remove({

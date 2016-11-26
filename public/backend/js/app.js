@@ -52,7 +52,7 @@ app.controller('shopController', function ($scope, $http, $rootScope) {
         var price = $('#newPrice').val();
         $http({
             method: 'POST',
-            url: 'https://shop.felixwie.com/protected/products/',
+            url: 'https://shop.felixwie.com/products/',
             headers: {'Content-Type': 'application/x-www-form-urlencoded', 'x-access-token' : $scope.token},
             transformRequest: function (obj) {
                 var str = [];
@@ -78,8 +78,8 @@ app.controller('shopController', function ($scope, $http, $rootScope) {
         var name = $('#editName'+index).val();
         var price = $('#editPrice'+index).val();
         $http({
-            method: 'PUT',
-            url: 'https://shop.felixwie.com/protected/products/' + id,
+            method: 'POST',
+            url: 'https://shop.felixwie.com/products/' + id,
             headers: {'Content-Type': 'application/x-www-form-urlencoded', 'x-access-token' : $scope.token},
             transformRequest: function (obj) {
                 var str = [];
@@ -129,7 +129,7 @@ app.controller('shopController', function ($scope, $http, $rootScope) {
         if (typeof $scope.token != 'undefined') {
             $http({
                 method: 'DELETE',
-                url: 'https://shop.felixwie.com/protected/products/' + id,
+                url: 'https://shop.felixwie.com/products/' + id,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', 'x-access-token': $scope.token},
                 data: {}
             }).success(function (result) {
