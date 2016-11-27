@@ -110,6 +110,7 @@ app.controller('shopController', function ($scope, $http, $rootScope) {
             formData.append('descht', 'felix');
             console.log(formData);
 
+
             $.ajax({
                 url: '/media/upload',
                 type: 'post',
@@ -136,7 +137,6 @@ app.controller('shopController', function ($scope, $http, $rootScope) {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded', 'x-access-token': $scope.token},
                 data: {}
             }).success(function (result) {
-                //TODO delete entry from current DOM
                 $('#' + id).hide('slow');
                 console.log(result);
             });

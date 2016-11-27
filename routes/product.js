@@ -42,7 +42,7 @@ product.route('/')
 		prod.price = req.body.price;
 		//TODO implement several img sizes
 		prod.picture.size = 'big';
-		//TODO upload file to static dir, change name to random number, ceck if number already exists
+		//TODO choose img from library
 		prod.picture.url = req.body.picture_url;
 		prod.created_at = new Date();
 		
