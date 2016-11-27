@@ -1,5 +1,7 @@
 var express 	= require('express');
+var formidable 	= require('formidable');
 var jwt			= require('jsonwebtoken');
+var fs 			= require('fs');
 var config		= require('../config.js');
 var path 		= require('path');
 var media_model = require('../models/media.js');
@@ -21,11 +23,7 @@ media.get('/', function(req, res) {
 });
 
 media.use(function(req, res, next) {
-	//console.log(req);
-	console.log(req.body);
-	var token = req.body.token || req.query.token || req.headers['x-access-token'];
-	console.log(token);
-	//console.log(req.body);
+	var token = req.cookies.token;
 	if(token) {
 		jwt.verify(token, config.secret, function(err, decoded) {
 			if(err) {
@@ -41,38 +39,45 @@ media.use(function(req, res, next) {
 });
 
 media.post('/upload', function(req, res) {
-	console.log(req.files);
-	console.log('test');
-/* 	console.log(req);
-	console.log(req.files);
- 	var form = new formidable.IncomingForm();
-	form.multiples = true;
-	form.uploadDir = path.join(__dirname, '/public/frontend/img/assets/');
-	form.on('file', function(field, file) {
-		var m = new media();
-		m.name = file.name;
-		m.url = file.name + '.jpg';
+	var form = new formidable.IncomingForm();
+
+	form.parse(req);
+
+	form.on('fileBegin', function (name, file) {
+		file.path = path.join(__dirname + '/../public/frontend/img/assets/' + file.name);
+		var m = new media_model();
+
+		m.name = Math.floor(Math.random() * (100000 - 1) + 1);
+		m.url = file.name;
 		m.isUsed = false;
+
 		m.save(function(err) {
 			if(err) {res.send(err); }
-			console.log('Created');
+			console.log('Created DB entry');
 		});
-		fs.rename(file.path, path.join(form.uploadDir, file.name));
 	});
-	
-	form.on('error', function(err) {
-		console.log('Error: ' + err);
+
+	form.on('file', function (name, file) {
+		console.log('Uploaded ' + file.name);
 	});
-	form.on('end', function() {
-		res.json({ success : true, message : 'Uploaded' });
-	}); */
-	
-	fs.readFile(req.files.Image.path, function(err, data) {
-		var newPath = __dirname + '/';
-		fs.writeFile(newPath, data, function(err) {
-			res.json({ success : true, message : 'Uploaded'});
-		});
-	})
+
+	res.redirect('/admin');
+});
+
+media.delete('/:id', function (req, res) {
+	var url = '';
+	media_model.findById(req.params.id, function(err, m) {
+		if(err) { console.log(err); }
+		url = m.url;
+	});
+
+	media_model.remove({
+		_id: req.params.id
+	}, function(err, m) {
+		if(err) {res.send(err);}
+		fs.unlink(path.join(__dirname + '/../public/frontend/img/assets/' + url));
+		res.json({ success: true, message: 'Deleted'});
+	});
 });
 
 module.exports = media;

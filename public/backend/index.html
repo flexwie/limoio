@@ -49,7 +49,7 @@
 		<div style="background-color: #FAFAFA">
 			<h3>Products</h3>
 			<div ng-repeat="prod in products track by $index">
-				<div class="product-holder" id="{{prod._id}}">
+				<div class="product-holder" id="prod{{prod._id}}">
 					<div class="spec">{{ prod.name }}</div>
 					<div class="spec" style="max-width: 100px;" ng-click="del(prod._id)">
 						<button style="padding: 5px; background-color: red; color: white;">Delete</button>
@@ -75,16 +75,14 @@
 		<div>
 			<h3>Media</h3>
 			<button ng-click="show_uploader()" id="show_uploader">Add</button>
-			<input type="file" name="Image" id="upload-input">
 			<div id="uploader">
 				<form method="post" action="/media/upload/" enctype="multipart/form-data">
 					<input type="file" name="Image">
-					<input value="{{ token }}" name="token" type="hidden">
 					<button type="submit">Submit</button>
 				</form>
 			</div>
 			<div ng-repeat="m in media track by $index">
-				<div class="media-holder">
+				<div class="media-holder" id="media{{m._id}}">
 					<div style="display: inline-block; background: url('frontend/img/assets/{{m.url}}'); height: 200px; width: 200px; background-size: 200px 200px; background-repeat: no-repeat; border: 1px solid black"></div>
 					<a class="x del-media" ng-click="del_media(m._id)">x</a>
 				</div>

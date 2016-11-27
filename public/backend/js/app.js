@@ -130,19 +130,16 @@ app.controller('shopController', function ($scope, $http, $rootScope) {
 
     //Create function for delete button click
     $scope.del = function (id) {
-        if (typeof $scope.token != 'undefined') {
             $http({
                 method: 'DELETE',
                 url: 'https://shop.felixwie.com/products/' + id,
-                headers: {'Content-Type': 'application/x-www-form-urlencoded', 'x-access-token': $scope.token},
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                 data: {}
             }).success(function (result) {
-                $('#' + id).hide('slow');
-                console.log(result);
+                if(result.data.success) {
+                    $('#prod' + id).hide('slow');
+                }
             });
-        } else {
-            console.log('Error');
-        }
     }
 
     //Create function for auth button click
@@ -169,6 +166,15 @@ app.controller('shopController', function ($scope, $http, $rootScope) {
 	
 	//Delete media
 	$scope.del_media = function(id) {
-		console.log(id);
+        $http({
+            method: 'DELETE',
+            url: 'https://shop.felixwie.com/media/' + id,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            data: {}
+        }).success(function (result) {
+            if(result.success) {
+                $('#media' + id).hide('slow');
+            }
+        });
 	}
 });

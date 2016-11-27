@@ -21,7 +21,7 @@ backend.route('/')
 					res.json({ success : false, message : 'Wrong password' });
 				} else {
 					var token = jwt.sign(user, config.secret, { expiresIn : 60*60*24 });
-					res.clearCookie('token').cookie('token', token, {expire : 60 * 60 *24 }).json({ success : true, message : 'User logged in'});
+					res.clearCookie('token').cookie('token', token, {expire : 60 * 60 *24 }).redirect('/admin');
 				}
 			}
 		});
@@ -36,6 +36,7 @@ backend.route('/login')
 				res.redirect('/admin');
 			});
 		}
+		res.sendfile(path.join(__dirname + '/../public/backend/login.html'));
 	});
 	
 module.exports = backend;
