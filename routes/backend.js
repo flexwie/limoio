@@ -1,9 +1,10 @@
-var express 	= require('express');
-var path 		= require('path');
-var jwt			= require('jsonwebtoken');
-var config		= require('../config.js');
-var user_model 	= require('../models/user.js');
-var backend		= express.Router();
+var express 		= require('express');
+var path 			= require('path');
+var cookieParser	= require('cookie-parser');
+var jwt				= require('jsonwebtoken');
+var config			= require('../config.js');
+var user_model 		= require('../models/user.js');
+var backend			= express.Router();
 
 backend.route('/')
 	.get(function(req, res) {
@@ -20,10 +21,21 @@ backend.route('/')
 					res.json({ success : false, message : 'Wrong password' });
 				} else {
 					var token = jwt.sign(user, config.secret, { expiresIn : 60*60*24 });
-					res.json({ success : true, message : 'User logged in', token : token });
+					res.clearCookie('token').cookie('token', token, {expire : 60 * 60 *24 }).json({ success : true, message : 'User logged in'});
 				}
 			}
 		});
+	});
+
+backend.route('/login')
+	.get(function (req, res) {
+		var token = req.cookies.token;
+		if( token ) {
+			jwt.verify(token, config.secret, function (err, decoded) {
+				if(err) { console.log(err); }
+				res.redirect('/admin');
+			});
+		}
 	});
 	
 module.exports = backend;
