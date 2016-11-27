@@ -1,4 +1,6 @@
 var express 	= require('express');
+var jwt			= require('jsonwebtoken');
+var config		= require('../config.js');
 var path 		= require('path');
 var media_model = require('../models/media.js');
 var media 		= express.Router();
@@ -19,10 +21,13 @@ media.get('/', function(req, res) {
 });
 
 media.use(function(req, res, next) {
-	console.log(req);
+	//console.log(req);
+	console.log(req.body);
 	var token = req.body.token || req.query.token || req.headers['x-access-token'];
+	console.log(token);
+	//console.log(req.body);
 	if(token) {
-		jwt.verify(token, app.get('superSecret'), function(err, decoded) {
+		jwt.verify(token, config.secret, function(err, decoded) {
 			if(err) {
 				return res.json({ success : false, message : 'Token false' });
 			} else {
@@ -36,6 +41,8 @@ media.use(function(req, res, next) {
 });
 
 media.post('/upload', function(req, res) {
+	console.log(req.files);
+	console.log('test');
 /* 	console.log(req);
 	console.log(req.files);
  	var form = new formidable.IncomingForm();

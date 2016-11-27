@@ -96,25 +96,28 @@ app.controller('shopController', function ($scope, $http, $rootScope) {
 
     //create upload function
     $('#upload-input').on('change', function () {
+        console.log('test');
         var files = $(this).get(0).files;
         console.log(files);
         console.log(files.length);
         if (files.length > 0) {
             var formData = new FormData();
-            for (var i = 0; i < files.lenght; i++) {
+            /*for (var i = 0; i < files.lenght; i++) {
                 var file = files[i];
-                formData.append('uploads[]', file, file.name);
-            }
-
+                formData.append('upload', file);
+            }*/
+            formData.append('token', $scope.token);
+            formData.append('descht', 'felix');
             console.log(formData);
 
             $.ajax({
-                url: '/media/upload/',
-                type: 'POST',
-                headers: {'x-access-token': $scope.token},
+                url: '/media/upload',
+                type: 'post',
+                //headers: {'x-access-token': $scope.token},
                 data: formData,
-                processData: false,
+                cache: false,
                 contentType: false,
+                processData: false,
                 success: function (data) {
                     console.log('upload successful! \n' + data);
                 }

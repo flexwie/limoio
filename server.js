@@ -17,8 +17,10 @@ var media_model		= require('./models/media.js');
 var config			= require('./config.js');
 
 //----- Express Init -----
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+	extended: true
+}));
 app.use(morgan('dev'));
 app.set('superSecret', config.secret);
 app.use(express.static(path.join(__dirname, 'public')));
