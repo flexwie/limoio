@@ -2,6 +2,7 @@ var express 		= require('express');
 var app 			= express();
 var bodyParser 		= require('body-parser');
 var path			= require('path');
+var cookieParser	= require('cookie-parser');
 var fs 				= require('fs');
 var formidable		= require('formidable');
 var morgan			= require('morgan');
@@ -17,6 +18,7 @@ var media_model		= require('./models/media.js');
 var config			= require('./config.js');
 
 //----- Express Init -----
+app.use(cookieParser());
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	extended: true
