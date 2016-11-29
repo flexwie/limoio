@@ -1,6 +1,9 @@
 {
   "name": "node-shop",
   "main": "server.js",
+  "scripts": {
+    "test": "node server.js"
+  },
   "dependencies": {
     "body-parser": "~1.0.1",
     "cookie-parser": "^1.4.3",
