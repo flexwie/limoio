@@ -10,8 +10,8 @@ There is no installation script so far. To use Limo.io on your server simply clo
 
 ### API Reference
 
->`GET /products/`
->Returns JSON with all products
+`GET /products/`
+Returns JSON with all products
 
->`POST /products/`
->Create a new product. Requires a valid token.
+`POST /products/`
+Create a new product. Requires a valid token.
