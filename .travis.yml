@@ -1,0 +1,6 @@
+{
+  "language": "nodejs",
+  "group": "stable",
+  "dist": "precise",
+  "os": "linux"
+}
