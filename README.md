@@ -1,4 +1,4 @@
-# limo.io [![Build Status](https://travis-ci.org/flexwie/limoio.svg?branch=master)](https://travis-ci.org/flexwie/limoio)[![Join the chat at https://gitter.im/limoio/Lobby](https://badges.gitter.im/limoio/Lobby.svg)](https://gitter.im/limoio/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# limo.io [![Build Status](https://travis-ci.org/flexwie/limoio.svg?branch=master)](https://travis-ci.org/flexwie/limoio) [![Join the chat at https://gitter.im/limoio/Lobby](https://badges.gitter.im/limoio/Lobby.svg)](https://gitter.im/limoio/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 A shopware written in NodeJS using the MEAN stack
 
