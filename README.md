@@ -22,5 +22,8 @@ If you want to contribute to any of these topics just drop me a message and I wi
 `GET /products/`
 Returns JSON with all products
 
+`GET /products/:id`
+Returns JSON with specific product
+
 `POST /products/`
 Create a new product. Requires a valid token.
