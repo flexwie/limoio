@@ -28,3 +28,5 @@ Returns JSON with specific product
 
 `POST /products/`
 Create a new product. Requires a valid token.
+
+Thanks for reading
