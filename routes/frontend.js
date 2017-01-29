@@ -9,10 +9,7 @@ frontend.route('/')
 	
 frontend.route('/:prod_slug')
 	.get(function(req, res) {
-		product.findOne({slug : req.params.prod_slug}, function(err, prod) {
-			if(err) {res.send(err);}
-			res.json(prod);
-		})
+		res.sendfile(path.join(__dirname + '/../public/frontend/single.html'));
 	});
 	
 module.exports = frontend;
